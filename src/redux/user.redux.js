@@ -28,10 +28,11 @@ function errorMsg(msg) {
     return { msg, type: ERROR_MSG }
 }
 
-export function login({ user, pwd, rem }) {
-    console.log({ user, pwd, rem })
+export function login(data) {
+    console.log(data)
+
     return dispatch => {
-        axios.post('/user/login',{ params: { user, pwd, rem } })
+        axios.post('/user/login',data)
             .then(res => {
                 if (res.status === 200 & res.data.code === 0) {
                     dispatch(authSuccess(res.data.data))
