@@ -8,7 +8,9 @@ const models = {
     user: {
         'user': { 'type': String, require: true },
         'pwd': { 'type': String, require: true },
+        'headimg':{'type':JSON},
         'company': { 'type': String },
+        'avatar':{'type': String }
     },
     goods:{
         'goodsid':{'type':String},

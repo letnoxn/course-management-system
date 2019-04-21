@@ -5,7 +5,13 @@ import { connect } from 'react-redux'
 import { login } from '../../redux/user.redux'
 import img from './logo.jpg'
 
-
+function getCookie(name) {
+  let arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+  if (arr = document.cookie.match(reg))
+    return unescape(arr[2]);
+  else
+    return '';
+}
 
 @connect(state => state,
   { login })
@@ -17,22 +23,11 @@ class Login extends React.Component {
       pwd: '',
       rem: true
     }
-    this.getCookie = this.getCookie.bind(this)
-  
   }
-  
-  getCookie(name) {
-    let arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
-    if (arr = document.cookie.match(reg))
-      return unescape(arr[2]);
-    else
-      return null;
-  }
-
   handleSubmit = (e) => {
     let date = new Date();
-　　date.setDate(date.getDate()+30);
-　　date.toGMTString();
+    date.setDate(date.getDate() + 30);
+    date.toGMTString();
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
@@ -40,12 +35,11 @@ class Login extends React.Component {
         this.props.login(values)
         if (values.rem) {
           document.cookie = `user=${values.user}_${values.pwd};expires=${date}`
-        } 
+        }
 
       }
     });
   }
-
   render() {
     const { getFieldDecorator } = this.props.form;
     const cookieid = 'user'
@@ -57,7 +51,7 @@ class Login extends React.Component {
           <Form.Item>
             {getFieldDecorator('user', {
               rules: [{ required: true, message: 'Please input your username!' }],
-              initialValue: this.getCookie(cookieid).split('_')[0]
+              initialValue: getCookie(cookieid).split('_')[0]
             })(
               <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="用户名" />
             )}
@@ -65,7 +59,7 @@ class Login extends React.Component {
           <Form.Item>
             {getFieldDecorator('pwd', {
               rules: [{ required: true, message: 'Please input your Password!' }],
-              initialValue: this.getCookie(cookieid).split('_')[1]
+              initialValue: getCookie(cookieid).split('_')[1]
             })(
               <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="密码" />
             )}

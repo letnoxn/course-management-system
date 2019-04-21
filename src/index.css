@@ -7,3 +7,17 @@
 .login-form-button{
     width:100%;
 }
+.reg-page{
+    margin-top: 15vh;
+}
+.avatar-uploader {
+margin-left:46vw;
+
+}
+
+.reg-form{
+    float: left;
+    width: 20%;
+    margin-left:40vw;
+    
+}
