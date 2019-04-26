@@ -2,6 +2,7 @@ const express = require('express')
 const Router = express.Router()
 const model = require('./model')
 const User = model.getModel('user')
+const Chat = model.getModel('chat')
 const bodyParser = require('body-parser')
 
 
@@ -12,7 +13,6 @@ const _filter = { 'pwd': 0, '__v': 0 }
 
 
 Router.use('/login', jsonParser, function (req, res) {
-    console.log(req.body);
     const { user, pwd } = req.body
     User.findOne({ user: user, pwd: pwd }, { pwd: 0 }, function (err, doc) {
         if (!doc) {
@@ -58,7 +58,7 @@ Router.get('/info', function (req, res) {
 Router.use('/userupdata', function (req, res) {
 
     const { user, opwd, npwd, fileList} = req.body
-    console.log(fileList)
+    
     User.findOneAndUpdate({ user: user, pwd: opwd }, { pwd:npwd, headimg:fileList }, function (err, doc) {
 
         if (!doc) {
@@ -68,6 +68,32 @@ Router.use('/userupdata', function (req, res) {
             return res.json({ code: 1, msg:err })
         }
         return res.json({ code: 0 })
+    })
+})
+
+Router.use('/sendcontent',function(req,res){
+    const {userid} = req.cookies
+    const{content, user}=req.body
+    
+    Chat.create({ user, content ,userid}, function (err, doc) {
+        if (err) {
+            return res.json({ code: 1, msg: '后端出错' })
+        }
+        return res.json({ code: 0 })
+    })
+})
+
+Router.use('/getContentList',function(req,res){
+    User.find({},function(err,doc){
+        let users={}
+        doc.forEach(v=>{
+            users[v._id]={user:v.user,headimg:v.headimg}
+        })
+        Chat.find({},function(err,doc){
+            if(!err){
+                return res.json({code:0,contents:doc,users:users})
+            }
+        })
     })
 })
 

@@ -31,7 +31,7 @@ function authSuccess({...data}) {
     
     return { type: AUTH_SUCCESS, pyload:data}
 }
-function userUpdate({data}){
+function userUpdate(){
     return {type:USER_UPDATA}
 }
 export function loadData(userinfo){
