@@ -67,7 +67,7 @@ export function regisger(data) {
     return dispatch => {
         axios.post('/user/register',data)
             .then(res => {
-                if (res.status == 200 && res.data.code === 0) {
+                if (res.status === 200 && res.data.code === 0) {
                     dispatch(authSuccess({...data}))
                 } else {
                     dispatch(errorMsg(res.data.msg))
@@ -80,7 +80,7 @@ export function UserUpdata(data){
     return dispatch => {
         axios.post('/user/userupdata',data)
             .then(res => {
-                if (res.status == 200 && res.data.code === 0) {
+                if (res.status === 200 && res.data.code === 0) {
                     dispatch(userUpdate(data))
                 } else {
                     dispatch(errorMsg(res.data.msg))

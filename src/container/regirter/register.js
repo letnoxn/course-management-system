@@ -1,6 +1,5 @@
 import React from 'react';
-import { Form, Button, Upload, Icon, Modal, message, Input } from 'antd';
-import Axios from 'axios';
+import { Form, Button, Upload, Icon, Modal, Input } from 'antd';
 import { connect } from 'react-redux'
 import { regisger } from '../../redux/user.redux'
 import { Redirect } from 'react-router-dom'

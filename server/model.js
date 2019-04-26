@@ -7,17 +7,30 @@ const models = {
     user: {
         'user': { 'type': String, require: true },
         'pwd': { 'type': String, require: true },
-        'headimg':{'type':Array},
+        'headimg': { 'type': Array },
         'company': { 'type': String },
-        'avatar':{'type': String }
+        'avatar': { 'type': String }
     },
-    goods:{
-        'goodsid':{'type':String},
-        'name':{'type':String},
-        'content':{'type':String},
-        'price':{'type':String},
-        'num':{'type':Number},
-        'create_time':{'type':Number,'default': new Date().getTime()}
+    chat: {
+        'userid': { 'type': String, require: true },
+        'user': { 'type': String, require: true },
+        'content': { 'type': String, require: true },
+        'start': { 'type': Number },
+        'create_time': { 'type': Number, 'default': new Date().getTime() },
+        'comments': [{
+            comment: {
+                type: String, required: true,
+            },
+            reply: {
+                type: String, required: true
+            },
+            userid: {
+                type: String, required: true,
+            },
+            user: {
+                type: String, required: true,
+            },
+        }]
     }
 }
 

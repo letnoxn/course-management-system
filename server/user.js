@@ -3,7 +3,7 @@ const Router = express.Router()
 const model = require('./model')
 const User = model.getModel('user')
 const bodyParser = require('body-parser')
-const multer = require("multer")
+
 
 
 const jsonParser = bodyParser.json();

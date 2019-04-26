@@ -5,14 +5,8 @@ import { connect } from 'react-redux'
 import { login } from '../../redux/user.redux'
 import img from './logo.jpg'
 import { Redirect } from 'react-router-dom'
+import {getCookie} from '../../utl'
 
-function getCookie(name) {
-  let arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
-  if (arr = document.cookie.match(reg))
-    return unescape(arr[2]);
-  else
-    return '';
-}
 
 @connect(state => state.user,
   { login })

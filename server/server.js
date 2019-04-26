@@ -3,9 +3,8 @@ const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 
 
-const model = require('./model')
-const app = express()
 
+const app = express()
 const userRoutre = require('./user')
 
 
