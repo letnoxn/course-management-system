@@ -1,14 +1,13 @@
 const mongoose = require('mongoose')
 
-const DB_URL = 'mongodb://localhost:27017/manage'
+const DB_URL = 'mongodb://localhost:27017/blog_data'
 mongoose.connect(DB_URL, { useNewUrlParser: true })
 
 const models = {
-
     user: {
         'user': { 'type': String, require: true },
         'pwd': { 'type': String, require: true },
-        'headimg':{'type':JSON},
+        'headimg':{'type':Array},
         'company': { 'type': String },
         'avatar':{'type': String }
     },
@@ -20,8 +19,6 @@ const models = {
         'num':{'type':Number},
         'create_time':{'type':Number,'default': new Date().getTime()}
     }
-    
-   
 }
 
 for (let m in models) {

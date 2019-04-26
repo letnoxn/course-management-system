@@ -3,6 +3,7 @@ import { Form, Button, Upload, Icon, Modal, message, Input } from 'antd';
 import Axios from 'axios';
 import { connect } from 'react-redux'
 import { regisger } from '../../redux/user.redux'
+import { Redirect } from 'react-router-dom'
 
 @connect(state => state.user,
   { regisger }
@@ -40,6 +41,9 @@ class Register extends React.Component {
   handleRegister() {
     this.props.regisger(this.state)
   }
+  display_alert(){
+    alert('注册成功！')
+  }
   render() {
     const { previewVisible, previewImage, fileList } = this.state;
     const uploadButton = (
@@ -48,8 +52,10 @@ class Register extends React.Component {
         <div className="ant-upload-text">点击上传头像</div>
       </div>
     )
-
+    
     return (<div className="reg-page">
+    {this.props.redirectTo ? <p onClick={this.display_alert()}></p> : null}
+    {this.props.redirectTo ? <Redirect to={this.props.redirectTo}></Redirect> : null}
       <h2 style={{ textAlign: 'center' }}>用户注册</h2>
       <br />
       <br />
@@ -78,6 +84,7 @@ class Register extends React.Component {
           </Form.Item>
           <Form.Item label="重复密码">
             <Input.Password onChange={v => this.formChange('repeatpwd',v.target.value)} />
+            {this.props.msg ? <p className="erro-msg">{this.props.msg}</p> : null}
           </Form.Item>
           <Button type='primary' onClick={() => this.handleRegister()}>提交</Button>
         </Form>

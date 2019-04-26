@@ -9,7 +9,9 @@ import { BrowserRouter, Route, Link, Redirect, Switch } from 'react-router-dom'
 import reducers from './reducer'
 import Login from './container/login/login'
 import Register from './container/regirter/register'
-import Info from './component/info/info'
+import Info from './container/info/info'
+import AuthRoute from './component/authroute/authroute'
+import Change from './component/change/change'
 // import AuthRoute from  './component/authroute/authroute'
 
 const store = createStore(reducers, compose(
@@ -22,10 +24,16 @@ const store = createStore(reducers, compose(
 ReactDOM.render(
     <Provider store={store}>
         <BrowserRouter>
+
             <div>
-                <Route path='/login' component={Login}></Route>
-                <Route path='/register' component={Register}></Route>
-                <Route path='/info' component={Info}></Route>
+                <AuthRoute></AuthRoute>
+                <Switch>
+                    <Route path='/login' component={Login}></Route>
+                    <Route path='/register' component={Register}></Route>
+                    <Route path='/info' component={Info}></Route>
+                    <Route path='/change' component={Change}></Route>
+                </Switch>
             </div>
+
         </BrowserRouter>
     </Provider>, document.getElementById('root'));

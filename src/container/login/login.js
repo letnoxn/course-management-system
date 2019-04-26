@@ -4,6 +4,7 @@ import { Form, Icon, Input, Button, Checkbox } from 'antd';
 import { connect } from 'react-redux'
 import { login } from '../../redux/user.redux'
 import img from './logo.jpg'
+import { Redirect } from 'react-router-dom'
 
 function getCookie(name) {
   let arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
@@ -13,7 +14,7 @@ function getCookie(name) {
     return '';
 }
 
-@connect(state => state,
+@connect(state => state.user,
   { login })
 class Login extends React.Component {
   constructor(props) {
@@ -46,6 +47,7 @@ class Login extends React.Component {
     return (
 
       <div className='loginpage' style={{ textAlign: 'center' }}>
+      {this.props.redirectTo ? <Redirect to={this.props.redirectTo}></Redirect> : null}
         <img src={img} alt='LOGO' />
         <Form onSubmit={this.handleSubmit} className="login-form">
           <Form.Item>
@@ -64,6 +66,7 @@ class Login extends React.Component {
               <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="密码" />
             )}
           </Form.Item>
+          {this.props.msg ? <p className="erro-msg">{this.props.msg}</p> : null}
           <Form.Item>
             {getFieldDecorator('rem', {
               valuePropName: 'checked',
