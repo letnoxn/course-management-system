@@ -1,6 +1,4 @@
 import axios from 'axios'
-import { func } from 'prop-types';
-
 
 const SEND_SUCCESS = 'SEND_SUCCESS'
 const GET_CONTENT_SUCCESS = 'GET_CONTENT_SUCCESS'

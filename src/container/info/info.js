@@ -9,13 +9,7 @@ import { withRouter } from 'react-router-dom'
 @connect(state => state.user,
   null)
 class Info extends React.Component {
-  constructor(props) {
-    super(props)
 
-  }
-  componentDidmount() {
-
-  }
   logout() {
     const confirm = Modal.confirm;
     confirm({

@@ -38,11 +38,10 @@ class Chat extends React.Component {
         this.props.getContentList()
     }
     handleClick(value) {
-        console.log(value._id)
+        console.log(value)
       this.props.uplike(value._id)
       value.like++
-      this.forceUpdate()
-           
+      this.forceUpdate() 
     }
 
     render() {
@@ -81,7 +80,7 @@ class Chat extends React.Component {
                             >
                                 <List.Item.Meta
                                     avatar={<Avatar src={users[item.userid].headimg[0].thumbUrl} />}
-                                    title={<a>{item.user}</a>}
+                                    title={<span>{item.user}</span>}
                                 />
                                 {item.content}
                             </List.Item>

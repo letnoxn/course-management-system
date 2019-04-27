@@ -1,5 +1,5 @@
 import React from 'react'
-import Axios from 'axios'
+import axios from 'axios'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { loadData } from '../../redux/user.redux'
@@ -18,10 +18,10 @@ class AuthRoute extends React.Component {
 
 
         //获取用户信息
-        Axios.get('/user/info').
-            then(res => {
-                if (res.status == 200) {
-                    if (res.data.code == 0) {
+        axios.get('/user/info')
+            .then(res => {
+                if (res.status === 200) {
+                    if (res.data.code === 0) {
                         //有登录信息
                         this.props.loadData(res.data.data)
                         this.props.history.push('/info')
@@ -35,5 +35,5 @@ class AuthRoute extends React.Component {
         return null
     }
 }
-    export default AuthRoute
+export default AuthRoute
 
