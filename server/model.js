@@ -15,14 +15,14 @@ const models = {
         'userid': { 'type': String, require: true },
         'user': { 'type': String, require: true },
         'content': { 'type': String, require: true },
-        'start': { 'type': Number },
+        'like': { 'type': Number },
         'create_time': { 'type': Number, 'default': new Date().getTime() },
         'comments': [{
             comment: {
                 type: String, required: true,
             },
             reply: {
-                type: String, required: true
+                type: String
             },
             userid: {
                 type: String, required: true,

@@ -1,26 +1,28 @@
 import { Input, Button, List, Avatar, Icon } from 'antd'
 import React from 'react'
 import { connect } from 'react-redux'
-import { content,getContentList } from '../../redux/chat.redux'
+import { content, uplike, getContentList } from '../../redux/chat.redux'
+
 
 @connect(state => state,
-    { content ,getContentList}
+    { content, getContentList ,uplike}
 )
 class Chat extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             content: '',
-            user: ''
+            user: '',
+           
         }
-        
+
         this.handleContent = this.handleContent.bind(this)
+
     }
-    componentDidMount(){
+    componentDidMount() {
         this.props.getContentList()
     }
     handleChange(key, val) {
-
         this.setState({
             [key]: val
         }
@@ -30,33 +32,25 @@ class Chat extends React.Component {
     handleContent() {
         const data = {
             content: this.state.content,
-            user:this.props.user.user
+            user: this.props.user.user
         }
         this.props.content(data)
+        this.props.getContentList()
+    }
+    handleClick(value) {
+        console.log(value._id)
+      this.props.uplike(value._id)
+      value.like++
+      this.forceUpdate()
+           
     }
 
     render() {
-        const listData = [];
-        for (let i = 0; i < 23; i++) {
-            listData.push({
-               
-                title: `ant design part ${i}`,
-                
-                description: 'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-                content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-            });
-        }
-
-        const IconText = ({ type, text }) => (
-            <span>
-                <Icon type={type} style={{ marginRight: 8 }} />
-                {text}
-            </span>
-        );
-
-
+        const listData = this.props.chat.contents
+        const users = this.props.chat.users
 
         const { TextArea } = Input
+        
         return (<div style={{ background: 'white', overflow: 'hidden' }}>
             <br />
             <br />
@@ -64,30 +58,54 @@ class Chat extends React.Component {
 
             <TextArea rows={5} onChange={v => this.handleChange('content', v.target.value)} />
 
-            <Button onClick={this.handleContent} style={{ float: 'right' }} type="primary">发布</Button>
-            <div style={{marginTop:'5vh'}}>
+            <Button onClick={this.handleContent} style={{ float: 'right', background: 'Orange' }} type="primary">发布</Button>
+            <div style={{ marginTop: '5vh' }}>
                 <List
                     itemLayout="vertical"
                     size="large"
                     pagination={{
                         onChange: (page) => {
-                          console.log(page);
+
                         },
                         pageSize: 3,
-                      }}
-                   
+                    }}
+                    dataSource={listData}
+                    footer={<div><b>blog</b> footer part</div>}
+                    renderItem={item => (
+                        <div>
+                            <List.Item
+                            
+                                key={item._id}
+                                actions={[<span ><Icon onClick={this.handleClick.bind(this,item)} type="like-o" style={{ marginRight: 8 }}></Icon>{item.like}</span>,
+                                <span><Icon type="message" style={{ marginRight: 8 }} ></Icon></span>]}
+                            >
+                                <List.Item.Meta
+                                    avatar={<Avatar src={users[item.userid].headimg[0].thumbUrl} />}
+                                    title={<a>{item.user}</a>}
+                                />
+                                {item.content}
+                            </List.Item>
+                            <List
+                                renderItem={item => (
+                                    <List.Item>
+                                        <List.Item.Meta
+                                            avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+                                            title={<a href="https://ant.design">{item.title}</a>}
+                                            description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                                        />
+                                    </List.Item>
+
+                                )}
+                            />
+
+
+
+                        </div>
+                    )}
                 />
-
             </div>
-
-
         </div>
-
-
         )
-
-
-
     }
 }
 export default Chat

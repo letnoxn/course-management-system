@@ -19,7 +19,7 @@ export function user(state = initState, action) {
         case ERROR_MSG:
             return { ...state, msg: action.msg }
         case USER_UPDATA:
-            return {update:1}  
+            return {...state}  
         default:
             return state
     }
@@ -28,7 +28,6 @@ export function user(state = initState, action) {
 
 
 function authSuccess({...data}) {
-    
     return { type: AUTH_SUCCESS, pyload:data}
 }
 function userUpdate(){
@@ -42,7 +41,6 @@ function errorMsg(msg) {
 }
 
 export function login(data) {
-    console.log(data)
     return dispatch => {
         axios.post('/user/login',data)
             .then(res => {
@@ -56,7 +54,6 @@ export function login(data) {
 }
 
 export function regisger(data) {
-    console.log(data)
     if (!data.user || !data.pwd ) {
         return errorMsg('用户名密码必须输入')
     }
@@ -68,7 +65,7 @@ export function regisger(data) {
         axios.post('/user/register',data)
             .then(res => {
                 if (res.status === 200 && res.data.code === 0) {
-                    dispatch(authSuccess({...data}))
+                    dispatch(authSuccess({headimg:data.fileList,...data}))
                 } else {
                     dispatch(errorMsg(res.data.msg))
                 }

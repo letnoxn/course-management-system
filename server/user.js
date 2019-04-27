@@ -74,8 +74,11 @@ Router.use('/userupdata', function (req, res) {
 Router.use('/sendcontent',function(req,res){
     const {userid} = req.cookies
     const{content, user}=req.body
-    
-    Chat.create({ user, content ,userid}, function (err, doc) {
+    const like=0
+    if(content===''){
+        return res.json({code:1})
+    }
+    Chat.create({ user, content ,userid, like}, function (err, doc) {
         if (err) {
             return res.json({ code: 1, msg: '后端出错' })
         }
@@ -97,4 +100,14 @@ Router.use('/getContentList',function(req,res){
     })
 })
 
+Router.get('/uplike',function(req,res){
+    const id=req.query.userid
+    Chat.findByIdAndUpdate({_id:id}, {$inc: { like: +1}} ,function(err,doc){
+        if(err){
+            return res.json({code:1})
+        }
+        return res.json({code:0})
+    })
+    
+})
 module.exports = Router
