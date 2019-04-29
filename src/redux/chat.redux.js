@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { func } from 'prop-types';
 
 const SEND_SUCCESS = 'SEND_SUCCESS'
 const GET_CONTENT_SUCCESS = 'GET_CONTENT_SUCCESS'
@@ -34,7 +35,9 @@ function getContentsuccess(data) {
     data.contents.reverse()
     return { type: GET_CONTENT_SUCCESS, pyload: data }
 }
+function senCommentSuccess(data){
 
+}
 
 export function content(data) {
     return dispatch => {
@@ -49,18 +52,23 @@ export function content(data) {
     }
 }
 
-export function uplike(data) {
-    return dispatch => {
-        axios.get('/user/uplike', { params: { userid: data } })
-    }
-}
-
 export function getContentList() {
     return dispatch => {
         axios.get('/user/getContentList')
             .then(res => {
                 if (res.status === 200 && res.data.code === 0) {
                     dispatch(getContentsuccess(res.data))
+                }
+            })
+    }
+}
+export function comment(data){
+    console.log(data)
+    return dispatch=>{
+        axios.post('/user/comment',data)
+            .then(res=>{
+                if(res.status===200&&res.data.code===0){
+                    
                 }
             })
     }

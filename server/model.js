@@ -20,13 +20,7 @@ const models = {
         'comments': [{
             comment: {
                 type: String, required: true,
-            },
-            reply: {
-                type: String
-            },
-            userid: {
-                type: String, required: true,
-            },
+            },  
             user: {
                 type: String, required: true,
             },

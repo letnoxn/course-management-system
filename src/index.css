@@ -23,8 +23,18 @@ margin-left:46vw;
 }
 .erro-msg{
     color:red;
-    font-size: 2vh
+    font-size: 2vh;
+}
+.info-head{
+    background: rgb(141, 160, 120);
+    height: 6vh;
 }
 .comment-list{
-    background: #ccc
+    background:green;
+   
+}
+.comment-item{
+    background:rgb(243, 245, 242);
+    margin: 5px auto;
+    
 }

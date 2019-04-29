@@ -38,7 +38,7 @@ class Info extends React.Component {
 
     return (<div>
       {redirectTo && redirectTo !== path ? <Redirect to={this.props.redirectTo}></Redirect> : null}
-      <div style={{ height: '60px', background: '#8FBC8F' }}>
+      <div className="info-head">
         <span style={{ fontSize: '30px', marginLeft: '15vw' }}>Blog主页</span>
         <Avatar shape="square" size={50} icon="user" src={url} style={{ marginLeft: '45vw' }} />
         <span style={{ fontSize: '30px', whiteSpace: 'pre' }}>{`   ${this.props.user}`}</span>

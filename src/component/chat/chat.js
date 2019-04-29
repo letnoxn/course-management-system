@@ -1,19 +1,25 @@
-import { Input, Button, List, Avatar, Icon } from 'antd'
+import { Input, Button, List, Avatar, Icon, Modal } from 'antd'
+import axios from 'axios'
 import React from 'react'
 import { connect } from 'react-redux'
-import { content, uplike, getContentList } from '../../redux/chat.redux'
+import { content, getContentList,comment } from '../../redux/chat.redux'
 
 
 @connect(state => state,
-    { content, getContentList ,uplike}
+    { content, getContentList,comment }
 )
 class Chat extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             content: '',
+            comment:'',
             user: '',
-           
+            item:'',
+            ModalText: 'Content of the modal',
+            visible: false,
+            confirmLoading: false,
+
         }
 
         this.handleContent = this.handleContent.bind(this)
@@ -38,19 +44,67 @@ class Chat extends React.Component {
         this.props.getContentList()
     }
     handleClick(value) {
-        console.log(value)
-      this.props.uplike(value._id)
-      value.like++
-      this.forceUpdate() 
+        axios.get('/user/uplike', { params: { userid: value._id } })
+            .then(res => {
+                if (res.status === 200 && res.data.code === 0) {
+                    value.like++
+                    this.forceUpdate()
+                }
+            })
+    }
+    
+
+    showModal = (item) => {
+        this.setState({
+            visible: true,
+            item:item._id
+        });
+    }
+
+    handleOk = () => {
+        this.setState({
+            ModalText: 'The modal will be closed after two seconds',
+            confirmLoading: true,
+        });
+        const data={
+            comment:this.state.comment,
+            itemID:this.state.item,
+            user:this.props.user.user
+        }
+        this.props.comment(data)
+    
+        setTimeout(() => {
+            this.setState({
+                visible: false,
+                confirmLoading: false,
+            });
+        }, 1000);
+        this.props.getContentList()
+    }
+
+    handleCancel = () => {
+        this.setState({
+            visible: false,
+        });
     }
 
     render() {
+        const { visible, confirmLoading, ModalText } = this.state;
         const listData = this.props.chat.contents
         const users = this.props.chat.users
 
         const { TextArea } = Input
-        
+
         return (<div style={{ background: 'white', overflow: 'hidden' }}>
+            <Modal
+                title="请输入评论："
+                visible={visible}
+                onOk={this.handleOk}
+                confirmLoading={confirmLoading}
+                onCancel={this.handleCancel}
+            >
+                <TextArea rows={4} onChange={v => this.handleChange('comment', v.target.value)} />
+            </Modal>
             <br />
             <br />
             <span style={{ fontStyle: 'italic', color: 'OrangeRed' }} >有什么新鲜事想告诉大家?</span>
@@ -73,10 +127,10 @@ class Chat extends React.Component {
                     renderItem={item => (
                         <div>
                             <List.Item
-                            
+
                                 key={item._id}
-                                actions={[<span ><Icon onClick={this.handleClick.bind(this,item)} type="like-o" style={{ marginRight: 8 }}></Icon>{item.like}</span>,
-                                <span><Icon type="message" style={{ marginRight: 8 }} ></Icon></span>]}
+                                actions={[<span ><Icon onClick={() => this.handleClick(item)} type="like-o" style={{ marginRight: 8 }}></Icon>{item.like}</span>,
+                                <span><Icon onClick={() => this.showModal(item)} type="message" style={{ marginRight: 8 }} ></Icon></span>]}
                             >
                                 <List.Item.Meta
                                     avatar={<Avatar src={users[item.userid].headimg[0].thumbUrl} />}
@@ -84,21 +138,33 @@ class Chat extends React.Component {
                                 />
                                 {item.content}
                             </List.Item>
-                            <List
-                                renderItem={item => (
-                                    <List.Item>
-                                        <List.Item.Meta
-                                            avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                                            title={<a href="https://ant.design">{item.title}</a>}
-                                            description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-                                        />
-                                    </List.Item>
+                            <List.Item>
 
-                                )}
-                            />
+                            </List.Item>
 
 
 
+                            {item.comments.length !== 0 && (
+                                <List
+                                    className="comment-list"
+                                    size="small"
+                                    bordered="true"
+                                    dataSource={item.comments}
+                                    key={item}
+                                    renderItem={item => (
+                                        <List.Item
+                                            className="comment-item"
+                                        >
+                                            <List.Item.Meta
+                                                title={item.user===this.props.user.user?'From me':item.user}
+                                                description={item.comment}
+                                            />
+                                            
+                                        </List.Item>
+                                    )}
+
+                                />
+                            )}
                         </div>
                     )}
                 />

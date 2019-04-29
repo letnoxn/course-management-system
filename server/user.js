@@ -110,4 +110,14 @@ Router.get('/uplike',function(req,res){
     })
     
 })
+Router.use('/comment',function(req,res){
+    const {itemID,comment,user}=req.body
+    Chat.findByIdAndUpdate({_id:itemID},{ $push: { comments: { comment, user} } },function(err,doc){
+        if(err){
+            return res.json({code:1})
+        }
+        return res.json({code:0})
+        
+    })
+})
 module.exports = Router
