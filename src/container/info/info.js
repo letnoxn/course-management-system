@@ -46,7 +46,7 @@ class Info extends React.Component {
         <span onClick={this.logout} style={{ marginLeft: '2vw', cursor: 'pointer' }}>退出登录</span>
       </div>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <div style={{ background:'#DDDDDD ',width:'35vw' }}>
+        <div style={{ background: '#DDDDDD ', width: '35vw' }}>
           <Chat />
         </div>
       </div >

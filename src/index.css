@@ -28,6 +28,7 @@ margin-left:46vw;
 .info-head{
     background: rgb(141, 160, 120);
     height: 6vh;
+    overflow: auto;
 }
 .comment-list{
     background:green;
@@ -35,6 +36,6 @@ margin-left:46vw;
 }
 .comment-item{
     background:rgb(243, 245, 242);
-    margin: 5px auto;
+    margin: 2px auto;
     
 }

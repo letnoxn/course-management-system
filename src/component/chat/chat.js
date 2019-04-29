@@ -23,7 +23,6 @@ class Chat extends React.Component {
         }
 
         this.handleContent = this.handleContent.bind(this)
-
     }
     componentDidMount() {
         this.props.getContentList()
@@ -89,7 +88,7 @@ class Chat extends React.Component {
     }
 
     render() {
-        const { visible, confirmLoading, ModalText } = this.state;
+        const { visible, confirmLoading} = this.state;
         const listData = this.props.chat.contents
         const users = this.props.chat.users
 
@@ -123,7 +122,6 @@ class Chat extends React.Component {
                         pageSize: 3,
                     }}
                     dataSource={listData}
-                    footer={<div><b>blog</b> footer part</div>}
                     renderItem={item => (
                         <div>
                             <List.Item
@@ -138,12 +136,7 @@ class Chat extends React.Component {
                                 />
                                 {item.content}
                             </List.Item>
-                            <List.Item>
-
-                            </List.Item>
-
-
-
+                             <bn/>
                             {item.comments.length !== 0 && (
                                 <List
                                     className="comment-list"
@@ -162,12 +155,13 @@ class Chat extends React.Component {
                                             
                                         </List.Item>
                                     )}
-
                                 />
                             )}
                         </div>
                     )}
                 />
+                <br/>
+                <br/>
             </div>
         </div>
         )
